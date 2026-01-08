@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import es.fpsumma.dam2.api.ui.screen.tareas.DetalleTareaContent
+import es.fpsumma.dam2.api.ui.navegation.DetalleTareasContent
 import es.fpsumma.dam2.api.ui.screen.tareas.ListadoTareasScreen
 import es.fpsumma.dam2.api.ui.screen.tareas.NuevaTareaScreen
 import es.fpsumma.dam2.api.viewmodel.TareasViewModel
@@ -15,12 +15,12 @@ import es.fpsumma.dam2.api.viewmodel.TareasViewModel
 fun AppNavHost(navController: NavHostController, tareasViewModel: TareasViewModel) {
     NavHost(navController = navController, startDestination = Routes.TAREA_LISTADO) {
         composable(Routes.TAREA_LISTADO) { ListadoTareasScreen(navController, tareasViewModel) }
-        composable(Routes.TAREA_ADD) { NuevaTareaScreen(navController, tareasViewModel) }
+        composable(Routes.TAREA_ADD_API) { NuevaTareaScreen(navController, tareasViewModel) }
         composable(
             route = Routes.TAREA_VIEW,
             arguments = listOf(navArgument("id") { type = NavType.IntType })
         ) { backStage ->
-            DetalleTareaContent(
+            DetalleTareasContent(
                 id = backStage.arguments?.getInt("id") ?: 0,
                 navController,
                 tareasViewModel
@@ -28,4 +28,9 @@ fun AppNavHost(navController: NavHostController, tareasViewModel: TareasViewMode
         }
 
     }
+}
+
+@Composable
+fun DetalleTareasContent(id: Int, x1: NavHostController, x2: TareasViewModel) {
+    TODO("Not yet implemented")
 }

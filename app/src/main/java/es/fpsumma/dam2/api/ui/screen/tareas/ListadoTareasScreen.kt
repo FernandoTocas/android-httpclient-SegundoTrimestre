@@ -57,7 +57,7 @@ fun ListadoTareasScreen(
                 },
                 actions = {
                     Row {
-                        IconButton(onClick = { navController.navigate(Routes.TAREA_ADD) }) {
+                        IconButton(onClick = { navController.navigate(Routes.TAREA_ADD_API) }) {
                             Icon(Icons.AutoMirrored.Filled.NoteAdd, contentDescription = "Añadir")
                         }
 
@@ -67,7 +67,7 @@ fun ListadoTareasScreen(
         }
     ) { innerPadding ->
 
-
+//Error pendiente de solucionar.
         tareas?.let {
 
 

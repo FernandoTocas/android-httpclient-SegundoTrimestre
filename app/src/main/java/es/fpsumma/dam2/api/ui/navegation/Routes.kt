@@ -4,11 +4,11 @@ object Routes {
     const val HOME = "home"
     const val TAREA_LISTADO = "tareas/listado"
 
-    const val TAREA_ADD = "tareas/nueva"
+    const val TAREA_ADD_API = "tareas/nueva"
 
     const val TAREA_VIEW = "tareas/detalle/{id}"
 
-    fun tareaView(id: Int): String {
+    fun tareaAPIView(id: Int): String {
         return "tareas/detalle/$id"
     }
 
