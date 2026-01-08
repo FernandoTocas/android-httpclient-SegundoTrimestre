@@ -1,6 +1,10 @@
 package es.fpsumma.dam2.api.ui.screen.tareas
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.NoteAdd
@@ -17,13 +21,17 @@ import java.lang.reflect.Modifier
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ListadoTareasContent(
-    ui: TareasUIState,
+    state: TareasUIState,
     onBack: () -> Unit,
     onAdd: () -> Unit,
     onOpenDetalle: (Int) -> Unit,
     onDelete: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier
 ) {
+
+    //Tenemos que crear dos funciones que nos reciba el onBack y onSave
+    //Serían los titulos y la descripción
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -41,7 +49,7 @@ fun ListadoTareasContent(
             )
         }
     ) { innerPadding ->
-
+/*
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -83,5 +91,6 @@ fun ListadoTareasContent(
                 }
             }
         }
-    }
+    }*/
+  }
 }

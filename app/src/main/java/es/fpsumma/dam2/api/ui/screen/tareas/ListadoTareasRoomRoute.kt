@@ -13,15 +13,10 @@ import java.lang.reflect.Modifier
 @Composable
 fun ListadoTareasRoomRoute(
   navController: NavController,
-  vm: TareasViewModel
+  vm: TareasViewModel,
+  modifier: Modifier,
 ) {
   val ui by vm.state.collectAsState()
 
-  ListadoTareasContent(
-    ui = ui,
-    onBack = { navController.popBackStack() },
-    onAdd = { navController.navigate(Routes.TAREA_ADD) },
-    onOpenDetalle = { id -> navController.navigate(Routes.tareaView(id)) },
-    onDelete = { id -> vm.deleteTareaById(id) }
-  )
+
 }

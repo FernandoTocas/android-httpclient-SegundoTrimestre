@@ -6,7 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import es.fpsumma.dam2.api.ui.screen.tareas.DetalleTareaScreen
+import es.fpsumma.dam2.api.ui.screen.tareas.DetalleTareaContent
 import es.fpsumma.dam2.api.ui.screen.tareas.ListadoTareasScreen
 import es.fpsumma.dam2.api.ui.screen.tareas.NuevaTareaScreen
 import es.fpsumma.dam2.api.viewmodel.TareasViewModel
@@ -20,7 +20,7 @@ fun AppNavHost(navController: NavHostController, tareasViewModel: TareasViewMode
             route = Routes.TAREA_VIEW,
             arguments = listOf(navArgument("id") { type = NavType.IntType })
         ) { backStage ->
-            DetalleTareaScreen(
+            DetalleTareaContent(
                 id = backStage.arguments?.getInt("id") ?: 0,
                 navController,
                 tareasViewModel
