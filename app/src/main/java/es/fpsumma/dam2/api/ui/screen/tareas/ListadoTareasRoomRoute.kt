@@ -25,7 +25,7 @@ fun ListadoTareasRemoteRoute(
 
   ListadoTareasContent(
     state = state,
-    onBack = { navController.popBackStack() },
+    onBack = { navController.popBackStack() }, //Nota: el popBackStack es el botón que regresa a la pantalla anterior.
     onAdd = { navController.navigate(Routes.TAREA_ADD_API) },
     onOpenDetalle = { id -> navController.navigate(Routes.tareaAPIView(id)) }, //tareaView -> Llama al detalle.
     onDelete = { id -> vm.deleteTareaById(id) },

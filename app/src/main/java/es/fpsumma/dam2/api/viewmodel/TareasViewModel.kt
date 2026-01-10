@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import es.fpsumma.dam2.api.data.local.AppDatabase
 import es.fpsumma.dam2.api.data.local.entity.TareaEntity
+import es.fpsumma.dam2.api.model.Tarea
 import es.fpsumma.dam2.api.ui.screen.tareas.TareasUIState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,13 +24,22 @@ class TareasViewModel(app: Application) : AndroidViewModel(app) {
     private val dao = db.tareaDao()
 
     val state: StateFlow<TareasUIState> =
-        dao.getAllTareas().map { lista -> TareasUIState(tareas = lista.map { Tarea(it.id, it.titulo, it.descripcion) })
+        dao.getAllTareas().map { lista -> TareasUIState(tareas = lista.map {
+            Tarea(
+                it.id,
+                it.titulo,
+                it.descripcion
+            )
+        })
             }.stateIn(viewModelScope, SharingStarted.Lazily, TareasUIState())
 
+    //Esta variable  la eliminas, ya que a partir de ahora accederemos al listado de tareas a travéz del estado.
     /*
     val tareas: StateFlow<List<TareaEntity>> =
         dao.getAllTareas().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     */
+
+    //Las funciones se mantienen.
     fun getTarea(id: Int): StateFlow<TareaEntity?> =
         dao.getTarea(id).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 

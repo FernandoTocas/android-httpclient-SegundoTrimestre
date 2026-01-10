@@ -76,7 +76,7 @@ fun ListadoTareasContent(
                         modifier = modifier.fillMaxSize(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(state.error)
+                        Text(state.error) //Muestra un texto de error.
                     }
 
                 }
