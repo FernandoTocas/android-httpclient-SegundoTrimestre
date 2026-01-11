@@ -1,11 +1,11 @@
 package es.fpsumma.dam2.api.ui.screen.tareas
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import es.fpsumma.dam2.api.ui.navegation.Routes
 import es.fpsumma.dam2.api.viewmodel.TareasViewModel
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -40,12 +41,11 @@ fun ListadoTareasScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val tareas by vm.tareas.collectAsState()
+    //Arreglamos el error, debido a que dentro del "vm" teemos la variable llamada state.
+    val state by vm.state.collectAsState()
 
-    fun handleDeleteTarea(id: Int) {
-        vm.deleteTareaById(id)
-    }
 
+    //Ambos botones que por defecto deberían ir el de "Volver": popBack y "Añadir": TAREA_ADD_API
     Scaffold(
         topBar = {
             TopAppBar(
@@ -67,57 +67,68 @@ fun ListadoTareasScreen(
         }
     ) { innerPadding ->
 
-//Error pendiente de solucionar.
-        tareas?.let {
+        //Agregué un "When para las dos diferentes condiciones.
+        //Es más potente que usar un Switch.
+        when {
+            state.loading -> { //Primero el estado de carga, que se verá al momento que se intente ingresar a la lista con el siguiente mensaje..
+                Text(
+                    text = "Cargando...",
+                    modifier = modifier.padding(innerPadding).padding(16.dp)
+                )
+            }
 
+            state.error != null -> { //Segundo el mensaje de "error", que le informará al usuario una vez se detecte el error.
+                Text(
+                    text = state.error!!, //Para que detecte el error es necesario usar el "!!"
+                    modifier = modifier.padding(innerPadding).padding(16.dp)
+                )
+            }
 
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
+            state.tareas.isEmpty() -> {
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("No hay tareas aún")
+                }
+            }
 
-                items(
-                    items = tareas,
-                    key = { it.id }
-                ) { tarea ->
-                    Card(
-                        onClick = {
-                            navController.navigate(Routes.tareaView(tarea.id))
-                        },
-                        modifier = modifier,
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        ListItem(
-
-                            headlineContent = { Text(tarea.titulo) },
-                            supportingContent = { Text(tarea.descripcion) },
-                            trailingContent = {
-                                IconButton(
-                                    onClick = { handleDeleteTarea(tarea.id) },
-                                    modifier = modifier.size(48.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Delete,
-                                        contentDescription = "Borrar nota"
-                                    )
+            else -> {
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                ) {
+                    items(
+                        items = state.tareas,
+                        key = { it.id }
+                    ) { tarea ->
+                        Card(
+                            onClick = {
+                                navController.navigate(Routes.tareaAPIView(tarea.id))
+                            },
+                            shape = RoundedCornerShape(16.dp),
+                            modifier = modifier.padding(8.dp)
+                        ) {
+                            ListItem(
+                                headlineContent = { Text(tarea.titulo) },
+                                supportingContent = { Text(tarea.descripcion) },
+                                trailingContent = {
+                                    IconButton(onClick = {
+                                        vm.deleteTareaById(tarea.id)
+                                    }) {
+                                        Icon(Icons.Outlined.Delete, contentDescription = "Borrar")
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
-        }
-    ?: Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-        ) {
-            Row(modifier = modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-                Text("No hay tareas aún")
-            }
-
         }
     }
 }
