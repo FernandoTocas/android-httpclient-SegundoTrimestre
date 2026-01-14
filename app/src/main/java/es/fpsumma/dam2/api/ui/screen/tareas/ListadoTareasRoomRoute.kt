@@ -1,7 +1,6 @@
 package es.fpsumma.dam2.api.ui.screen.tareas
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -10,7 +9,7 @@ import es.fpsumma.dam2.api.ui.navegation.Routes
 import es.fpsumma.dam2.api.viewmodel.TareasViewModel
 
 @Composable
-fun ListadoTareasRemoteRoute(
+fun ListadoTareasRoomRoute(
   navController: NavController,
   vm: TareasViewModel,
   modifier: Modifier = Modifier,
@@ -18,17 +17,14 @@ fun ListadoTareasRemoteRoute(
 
   val state by vm.state.collectAsState()
 
-  // Se ejecuta 1 vez cuando se entra en la pantalla
-  LaunchedEffect(Unit) {
-    //vm.loadTareas()
-  }
-
   ListadoTareasContent(
     state = state,
-    onBack = { navController.popBackStack() }, //Nota: el popBackStack es el botón que regresa a la pantalla anterior.
-    onAdd = { navController.navigate(Routes.TAREA_ADD_API) },
-    onOpenDetalle = { id -> navController.navigate(Routes.tareaAPIView(id)) }, //tareaView -> Llama al detalle.
+    onBack = { navController.popBackStack() },
+    onAdd = { navController.navigate(Routes.TAREA_ADD) },
+    onOpenDetalle = { id -> navController.navigate(Routes.tareaAPIView(id)) },
     onDelete = { id -> vm.deleteTareaById(id) },
     modifier = modifier,
   )
 }
+
+

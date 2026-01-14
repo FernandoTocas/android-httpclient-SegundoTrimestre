@@ -24,7 +24,10 @@ class TareasViewModel(app: Application) : AndroidViewModel(app) {
     private val dao = db.tareaDao()
 
     val state: StateFlow<TareasUIState> =
-        dao.getAllTareas().map { lista -> TareasUIState(tareas = lista.map {
+        dao.getAllTareas().map { lista ->
+            TareasUIState(
+                loading = false,
+                tareas = lista.map {
             Tarea(
                 it.id,
                 it.titulo,

@@ -12,12 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -38,11 +36,12 @@ import es.fpsumma.dam2.api.viewmodel.TareasViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DetalleTareaScreen(
-    id:Int,
+fun DetalleTareaContent(
+    id: Int,
     navController: NavController,
     vm: TareasViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSave: (Int, String, String) -> Unit
 ) {
 
     val tareaFlow = remember(id) { vm.getTarea(id) }
@@ -57,11 +56,6 @@ fun DetalleTareaScreen(
             titulo = it.titulo
             descripcion = it.descripcion
         }
-    }
-
-    fun handleUpdateTarea() {
-        vm.updateTarea(id, titulo, descripcion)
-        navController.navigate(Routes.TAREA_LISTADO)
     }
 
     Scaffold(
@@ -100,7 +94,7 @@ fun DetalleTareaScreen(
             )
             Spacer(modifier.height(8.dp))
             Button(
-                onClick = ::handleUpdateTarea,
+                onClick = { onSave(id,titulo,descripcion)} ,
                 modifier = modifier.fillMaxWidth()
             ) { Text("Actualizar tarea") }
 
